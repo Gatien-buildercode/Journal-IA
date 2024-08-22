@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelles-IA</title>
+    <!-- Importation de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <!-- Importation de FontAwesome pour l'icône de recherche -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1 class="header-title">Monde-IA<i class="fas fa-search search-icon"></i></h1>
+    </header>
+    <main id="news-container">
+        <!-- News articles will be inserted here -->
+    </main>
+    <footer>
+        <p>&copy; 2024 AI News Updates. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+<style>   body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background-color: black;
+    color: white;
+    padding: 0px;
+    text-align: center;
+    width: 100%;
+}
+
+main {
+    max-width: 800px;
+    margin: 0px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+article {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+article h2 {
+    font-size: 1.5em;
+    color: #333;
+}
+
+article p {
+    color: #666;
+}
+
+footer {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+}  .more-info-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.more-info-btn:hover {
+    background-color: #45a049;
+} .article-img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+article {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+}   /* Modification de la police et du style du titre */
+.header-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2em;
+    color: white; /* Couleur bleue */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stylisation de l'icône de recherche */
+.search-icon {
+    font-size: 0.8em; /* Taille de l'icône de recherche */
+    margin-left: 3px; /* Espace entre le texte et l'icône */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.search-icon:hover {
+    color: #4CAF50; /* Changement de couleur au survol */
+}</style>
+<script>document.addEventListener('DOMContentLoaded', () => {
+    const newsContainer = document.getElementById('news-container');
+    const apiKey = '9b3c0dc93c184fe19edad9e2ade68b3f';  // Remplacez par votre clé API
+    const url = `https://newsapi.org/v2/everything?q=artificial+intelligence&apiKey=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            data.articles.forEach(article => {
+                const articleElement = document.createElement('article');
+                const titleElement = document.createElement('h2');
+                const descriptionElement = document.createElement('p');
+                const moreInfoButton = document.createElement('a');
+                const imgElement = document.createElement('img'); // Crée un élément d'image
+
+                // Configuration de l'image de l'article
+                if (article.urlToImage) {  // Vérifie si une image est disponible
+                    imgElement.src = article.urlToImage;
+                    imgElement.alt = article.title;
+                    imgElement.className = "article-img";  // Classe CSS pour styliser l'image
+                }
+
+                titleElement.textContent = article.title;
+                descriptionElement.textContent = article.description;
+
+                // Configurer le bouton "En savoir plus"
+                moreInfoButton.textContent = "En savoir plus";
+                moreInfoButton.href = article.url;
+                moreInfoButton.target = "_blank";
+                moreInfoButton.className = "more-info-btn";
+
+                // Ajouter l'image en haut de l'article
+                articleElement.appendChild(imgElement);
+                articleElement.appendChild(titleElement);
+                articleElement.appendChild(descriptionElement);
+                articleElement.appendChild(moreInfoButton);
+                newsContainer.appendChild(articleElement);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des données:', error);
+        });
+});</script>
+</body>
+</html>
